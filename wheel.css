@@ -49,42 +49,50 @@ body {
     width: 90vh;
     height: 90vh;
 }
-
 .results-box {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #8b0000, #5a0000); /* 深紅漸層 */
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); /* 金色微光 */
     padding: 25px;
-    width: 300px;
-    border: 1px solid #e0e0e0;
+    width: 320px;
+    border: 3px double #ffd700; /* 金色雙線邊框，更具傳統節慶感 */
     position: relative;
     z-index: 1;
 }
 
-    .results-box h2 {
-        text-align: center;
-        color: #333;
-        margin-top: 0;
-        margin-bottom: 20px;
-        border-bottom: 2px solid #f0f2f5;
-        padding-bottom: 15px;
-    }
+.results-box h2 {
+    text-align: center;
+    color: #ffd700; /* 亮金色 */
+    text-shadow: 1px 1px 2px black;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ffd700;
+    padding-bottom: 15px;
+}
+
+.results-box li {
+    background-color: rgba(255, 215, 0, 0.1); /* 半透明金色背景 */
+    color: #fff; /* 白色文字更清晰 */
+    border: 1px solid #ffd700;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+/* 讓顯示結果時更有動感 */
+.results-box li:not(:contains('?')) {
+    background-color: #ffd700;
+    color: #8b0000;
+    font-weight: bold;
+}
 
     .results-box ul {
         list-style-type: none;
         padding: 0;
         margin: 0;
-    }
-
-    .results-box li {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 12px 15px;
-        margin-bottom: 10px;
-        font-size: 1.1em;
-        color: #555;
-        text-align: center;
-        border: 1px solid #eee;
     }
 
         /* 最後一筆結果無下邊距 */
