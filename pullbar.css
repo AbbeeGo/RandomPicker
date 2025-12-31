@@ -1,0 +1,212 @@
+body {
+    background-image: url('bg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    padding-top: 50px;
+}
+
+.pullbar-container {
+    position: relative;
+}
+
+.awards {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 900;
+}
+
+    .awards label input[type="radio"] {
+        display: none;
+    }
+
+    .awards label span {
+        padding: 10px 20px;
+        border: 2px solid #ccc;
+        background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .awards label input[type="radio"]:checked + span {
+        background-color: rgba(224, 224, 224, 0.9); /* 半透明背景 */
+        box-shadow: inset 3px 3px 5px rgba(0,0,0,0.2);
+    }
+
+#bar {
+    width: 80vh;
+    height: 80vh;
+    z-index: 999;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
+.result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.scrolling-container {
+    position: absolute;
+    display: none;
+    gap: 50px;
+    overflow: hidden;
+    left: 174px;
+    top: 330px;
+    z-index: 100;
+}
+
+.scrolling-container.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 新增:捲動盒子樣式 */
+.scrolling-box {
+    display: flex;
+    flex-direction: column;
+    width: 395px;
+    height: 205px;
+    overflow: hidden;
+}
+
+    .scrolling-box div {
+        flex-shrink: 0;
+        height: 205px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* 修正:捲動動畫 - 添加 forwards 保持最終狀態 */
+    .scrolling-box.animate {
+        animation: scroll-up 6s linear forwards;
+    }
+
+@keyframes scroll-up {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-8200px);
+    }
+}
+
+.scrolling-box:last-child {
+    width: 375px;
+}
+
+.result-box {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+}
+
+.department-box {
+    left: 174px;
+    top: 330px;
+    width: 395px;
+    height: 205px;
+}
+
+.name-box {
+    left: 619px;
+    top: 330px;
+    width: 375px;
+    height: 205px;
+}
+
+.result-text {
+    font-size: 40px;
+    font-weight: bold;
+    color: #333;
+}
+
+.sidebar {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 999
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background: linear-gradient(145deg, #6e8efb, #a777e3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    width: 150px;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+
+#list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+    #list li {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+#toggle {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    z-index: 0;
+}
