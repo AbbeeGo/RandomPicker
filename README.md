@@ -1,4 +1,69 @@
-1. Open Wheel.htm.
-2. Press F11.
-3. Press Enter to start.
-4. If you want to change the count, use AI to create a new wheel.png and update wheel.js.
+# RandomPicker
+
+一個簡單的網頁抽獎輪盤應用，讓您輕鬆進行隨機桌次抽選。支援動態設定抽獎次數，並具有美觀的半透明設計。
+
+## 功能特色
+
+- **隨機抽獎**: 使用旋轉輪盤隨機選取桌次（1-16，除排除桌次）。
+- **動態次數**: 頁面載入時詢問抽獎次數，動態生成結果顯示。
+- **視覺效果**: 輪盤旋轉動畫，半透明背景和元素。
+- **清除功能**: 可清除所有結果並重置輪盤。
+- **鍵盤支援**: 按 Enter 鍵啟動抽獎。
+
+## 技術棧
+
+- **HTML**: 頁面結構
+- **CSS**: 樣式設計（半透明漸層、動畫）
+- **JavaScript**: 邏輯處理（隨機選取、動畫控制）
+
+## 安裝與執行
+
+此專案為純靜態網頁，無需安裝伺服器。
+
+1. **下載專案**:
+   ```bash
+   git clone https://github.com/AbbeeGo/RandomPicker.git
+   cd RandomPicker
+   ```
+
+2. **開啟網頁**:
+   在瀏覽器中直接開啟 `wheel.htm` 檔案。
+
+   - Windows: 雙擊 `wheel.htm`
+   - macOS/Linux: 在檔案管理器中右鍵 > 開啟於 > 瀏覽器
+
+或者，在 VS Code 等編輯器中開啟 `wheel.htm` 並使用內建瀏覽器預覽。
+
+## 使用說明
+
+1. 頁面載入時，會跳出對話框詢問抽獎次數（預設 3）。
+2. 輸入有效數字後，按「開始」按鈕啟動抽獎。
+3. 輪盤旋轉 4 秒後顯示結果。
+4. 結果會在下方列表顯示。
+5. 按「清除」按鈕清除所有結果並重置。
+6. 可重複抽獎直到次數用完。
+
+## 檔案結構
+
+- `wheel.htm`: 主頁面 HTML
+- `wheel.js`: JavaScript 邏輯
+- `wheel.css`: CSS 樣式
+- `util.js`: 工具函式（鍵盤綁定）
+- `wheel.png`: 輪盤圖片
+- `arrow.png`: 箭頭指標圖片
+- `bg.png`: 背景圖片（可選）
+
+## 自訂
+
+- **桌次範圍**: 修改 `wheel.js` 中的 `startValue` 和 `endValue`。注意：如果修改桌次數量，需同時更新 `wheel.png` 圖片以匹配新的桌次標籤。
+- **排除桌次**: 編輯 `excludedDesks` 陣列。目前排除 2 和 3 桌。
+- **樣式**: 調整 `wheel.css` 中的顏色和透明度。
+- **圖片**: 替換 `wheel.png`、`arrow.png` 或 `bg.png`。
+
+## 授權
+
+此專案為開源，歡迎使用和修改。
+
+## 貢獻
+
+歡迎提交 Issue 或 Pull Request！

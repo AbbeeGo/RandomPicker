@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    //抽獎次數
-    const times = 3;
+    // 詢問抽獎次數
+    let times = parseInt(prompt('請輸入抽獎次數：', '3'));
+    if (isNaN(times) || times <= 0) {
+        times = 3; // 預設
+    }
+
+    // 動態生成結果 li
+    const resultsList = document.getElementById('results-list');
+    for (let i = 1; i <= times; i++) {
+        const li = document.createElement('li');
+        li.id = `result-${i}`;
+        li.textContent = `第${i}次結果: ?`;
+        resultsList.appendChild(li);
+    }
+
     // 桌次列表
     const startValue = 1;
     const endValue = 16;
