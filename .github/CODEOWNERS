@@ -1,0 +1,3 @@
+# Code owners: 指定誰需要核准 pull request
+# 這會在啟用 "Require review from Code owners" 時強制要求指定使用者審查
+* @AbbeeGo

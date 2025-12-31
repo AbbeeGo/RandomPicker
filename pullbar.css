@@ -9,115 +9,135 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    position: relative;
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
     padding-top: 50px;
 }
 
+:root {
+    --gold: #ffd700;
+    --deep-red: #8b0000;
+}
+
 .pullbar-container {
-    position: relative;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
 }
 
 .awards {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 36px; /* 增加上方間距 */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 900;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
-    .awards label input[type="radio"] {
-        display: none;
-    }
+/* radio 樣式：隱藏原生 radio，使用 span 做自訂按鈕 */
+.awards label input[type="radio"] {
+    display: none;
+}
 
-    .awards label span {
-        padding: 10px 20px;
-        border: 2px solid #ccc;
-        background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
-        transition: all 0.2s ease;
-        white-space: nowrap;
-    }
-
-    .awards label input[type="radio"]:checked + span {
-        background-color: rgba(224, 224, 224, 0.9); /* 半透明背景 */
-        box-shadow: inset 3px 3px 5px rgba(0,0,0,0.2);
-    }
-
-#bar {
-    width: 80vh;
-    height: 80vh;
-    z-index: 999;
+.awards label span {
+    padding: 10px 16px;
+    border: 3px double var(--gold);
+    background: linear-gradient(145deg, rgba(139, 0, 0, 0.15), rgba(90, 0, 0, 0.08));
+    border-radius: 8px;
     cursor: pointer;
-    display: block;
-    position: relative;
-    z-index: 10;
+    box-shadow: 0 0 12px rgba(255,215,0,0.08);
+    transition: all 0.15s ease;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
 }
 
-.result-overlay {
+.awards label input[type="radio"]:checked + span {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--deep-red);
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.12);
+    font-weight: bold;
+}
+
+/* 覆蓋層：滾動區域 */
+.scrolling-area {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 50;
+    z-index: 999;
     pointer-events: none;
+    background: transparent;
 }
 
+/* 確保 scrolling-area 內所有層級背景透明 */
+.scrolling-area, .scrolling-area * {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* 滾動容器覆蓋整張圖片，內部 box 使用百分比定位 */
 .scrolling-container {
     position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     display: none;
-    gap: 50px;
     overflow: hidden;
-    left: 174px;
-    top: 330px;
-    z-index: 100;
+    z-index: 999;
 }
 
 .scrolling-container.active {
-    display: flex;
+    display: flex; /* enable centering if needed */
     align-items: center;
     justify-content: center;
 }
 
-/* 新增:捲動盒子樣式 */
+/* 捲動盒子（各自絕對定位到指定百分比區域） */
 .scrolling-box {
-    display: flex;
-    flex-direction: column;
-    width: 395px;
-    height: 205px;
+    position: absolute;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
 }
 
-    .scrolling-box div {
-        flex-shrink: 0;
-        height: 205px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-        font-weight: bold;
-        color: #333;
-    }
+.scrolling-box div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #333;
+}
 
-    /* 修正:捲動動畫 - 添加 forwards 保持最終狀態 */
-    .scrolling-box.animate {
-        animation: scroll-up 6s linear forwards;
-    }
+.scrolling-box.animate {
+    animation: scroll-up 6s linear forwards;
+}
 
 @keyframes scroll-up {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-8200px);
-    }
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-8200px); }
 }
 
 .scrolling-box:last-child {
-    width: 375px;
+    /* 保留無特定寬度，位置交由個別 id 控制 */
 }
 
 .result-box {
@@ -125,23 +145,42 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    border: none;
-    border-radius: 8px;
+    background: linear-gradient(145deg, rgba(139, 0, 0, 0.5), rgba(90, 0, 0, 0.5));
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    padding: 20px;
+    border: 3px double var(--gold);
+    color: white;
 }
 
+/* department 區域：261,333 ~ 1141,777（相對 2536x1028） */
 .department-box {
-    left: 174px;
-    top: 330px;
-    width: 395px;
-    height: 205px;
+    left: 10.293%; /* 261/2536 */
+    top: 32.393%;  /* 333/1028 */
+    width: 34.693%; /* (1141-261)/2536 */
+    height: 43.163%;/* (777-333)/1028 */
 }
 
+/* name 區域：1257,333 ~ 2121,777 */
 .name-box {
-    left: 619px;
-    top: 330px;
-    width: 375px;
-    height: 205px;
+    left: 49.556%; /* 1257/2536 */
+    top: 32.393%;
+    width: 34.100%; /* (2121-1257)/2536 */
+    height: 43.163%;
+}
+
+/* 同步設定滾動內容的兩個 box 位置 */
+#scrollingDepartment {
+    left: 10.293%;
+    top: 32.393%;
+    width: 34.693%;
+    height: 43.163%;
+}
+
+#scrollingName {
+    left: 49.556%;
+    top: 32.393%;
+    width: 34.100%;
+    height: 43.163%;
 }
 
 .result-text {
@@ -150,15 +189,26 @@ body {
     color: #333;
 }
 
-.sidebar {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+#bar {
+    display: block;
+    max-width: 60vw;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.9;
+}
+
+.result-list {
+    position: fixed;
+    left: 32px; /* 增加左側間距 */
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    z-index: 999
+    background: transparent;
 }
 
 .btn {
@@ -172,6 +222,19 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
     width: 150px;
+}
+
+/* 小方形樣式：給 #clearLast 使用 */
+#clearLast {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 6px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12);
 }
 
     .btn:hover {
@@ -192,9 +255,9 @@ body {
     width: 200px;
     max-height: 400px;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    border: 3px double var(--gold);
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
     #list li {
