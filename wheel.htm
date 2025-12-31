@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>轉輪盤抽獎</title>
+    <link rel="stylesheet" href="wheel.css" />
+    <script src=util.js></script>
+    <script src=wheel.js></script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="lottery-container">
+            <div class="wheel-wrapper">
+                <img id="arrow" src="arrow.png" alt="Pointer Arrow" />
+                <img id="wheel" src="wheel.png" alt="Lottery Wheel" />
+            </div>
+
+            <div class="results-box">
+                <div class="buttons-container">
+                    <button id="startButton" class="action-button">開始</button>
+                    <button id="clearButton" class="action-button">清除</button>
+                </div>
+                <h2>抽獎結果</h2>
+                <ul id="results-list">
+                    <li id="result-1">第一次結果: ?</li>
+                    <li id="result-2">第二次結果: ?</li>
+                    <li id="result-3">第三次結果: ?</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
