@@ -49,7 +49,7 @@ const users = `數位田曰總處,陳田曰
 ...`;
 
 // 捲動動畫時間（秒）
-const SCROLL_DURATION = 5;
+const SCROLL_DURATION = 3;
 
 // 拉霸動畫後延遲時間（毫秒）
 const ANIMATION_START_DELAY = 500;

@@ -176,6 +176,7 @@ body {
     width: auto;
     height: auto;
     position: relative;
+    opacity: 0.8;
 }
 
 .result-list {

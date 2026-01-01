@@ -29,7 +29,7 @@ const users = `數位田曰總處,陳田曰
 `;
 
 // 捲動動畫時間設定 (單位: 秒)
-const SCROLL_DURATION = 5;
+const SCROLL_DURATION = 4;
 
 // 拉霸動畫後延遲時間 (單位: 毫秒)
 const ANIMATION_START_DELAY = 500;
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 建立隨機排序的隊列
     let userQueue = shuffleArray(userList);
 
-    // 新增: 用於動畫的列表 (從 userList 中取得指定數量的隨機項目)
-    let animationList = userList.slice(0, ANIMATION_LIST_SIZE);
+    // 用於動畫的固定列表 (從 userList 中取得指定數量的隨機項目)
+    let animationList = shuffleArray(userList).slice(0, ANIMATION_LIST_SIZE);
 
     // 從 radio button 取得獎項名稱（去除括號內的數字）
     function getAwardName(radio) {
@@ -87,28 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return winners;
     }
 
-    // 初始化動畫 - 修正：每次抽獎前都要重新設定
-    function setupScrollingAnimation(winner) {
+    // 頁面載入時一次性建立動畫清單的 DOM 元素（固定 20 筆）
+    function initializeScrollingList() {
         const scrollingDepartment = document.getElementById('scrollingDepartment');
         const scrollingName = document.getElementById('scrollingName');
-
-        // 清空舊內容並重置位置
-        scrollingDepartment.innerHTML = '';
-        scrollingName.innerHTML = '';
-        scrollingDepartment.style.transform = 'translateY(0)';
-        scrollingName.style.transform = 'translateY(0)';
-
-        // 使用 20 個項目進行動畫，最後加上得獎人
-        const listForAnimation = [...animationList, winner];
-
-        // 獲取容器的高度（從父容器 scrolling-area 獲取）
         const scrollingArea = document.querySelector('.scrolling-area');
         const containerHeight = scrollingArea.offsetHeight;
-
-        // 每個項目的高度設為容器高度
         const itemHeight = containerHeight;
 
-        listForAnimation.forEach(item => {
+        // 清空容器
+        scrollingDepartment.innerHTML = '';
+        scrollingName.innerHTML = '';
+
+        // 建立固定 20 筆資料的 DOM 元素
+        animationList.forEach(item => {
             const deptDiv = document.createElement('div');
             deptDiv.textContent = item.department;
             deptDiv.style.height = itemHeight + 'px';
@@ -120,24 +112,33 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollingName.appendChild(nameDiv);
         });
 
-        // 計算滾動距離：總項目數 * 每個項目高度
-        const scrollDistance = listForAnimation.length * itemHeight;
-        const scrollDuration = SCROLL_DURATION; // 秒數，使用設定檔中的捲動時間
+        // 計算滾動距離：固定 20 個項目的總高度
+        const scrollDistance = ANIMATION_LIST_SIZE * itemHeight;
+
+        // 設置 CSS 變數 - 使用配置檔中的 SCROLL_DURATION
+        scrollingDepartment.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
+        scrollingDepartment.style.setProperty('--scroll-duration', `${SCROLL_DURATION}s`);
+        scrollingName.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
+        scrollingName.style.setProperty('--scroll-duration', `${SCROLL_DURATION}s`);
 
         // Debug: 輸出動畫資訊
-        console.log('動畫設定:', {
-            項目總數: listForAnimation.length,
+        console.log('動畫清單初始化:', {
+            項目總數: ANIMATION_LIST_SIZE,
             容器高度: containerHeight,
             每個項目高度: itemHeight,
             捲動距離: scrollDistance,
-            捲動時間: scrollDuration
+            捲動時間_秒: SCROLL_DURATION
         });
+    }
 
-        // 設置 CSS 變數
-        scrollingDepartment.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
-        scrollingDepartment.style.setProperty('--scroll-duration', `${scrollDuration}s`);
-        scrollingName.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
-        scrollingName.style.setProperty('--scroll-duration', `${scrollDuration}s`);
+    // 每次抽獎時重置捲動位置
+    function resetScrollingPosition() {
+        const scrollingDepartment = document.getElementById('scrollingDepartment');
+        const scrollingName = document.getElementById('scrollingName');
+
+        // 重置位置到第一筆
+        scrollingDepartment.style.transform = 'translateY(0)';
+        scrollingName.style.transform = 'translateY(0)';
     }
 
     bindEnterToButton('toggle');
@@ -275,25 +276,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 換回原圖後,重新設定動畫內容並啟動
                 barImage.src = originalSrc;
 
-                // 重新設定動畫內容（將得獎人加到最後）
-                setupScrollingAnimation(winner);
+                // 重置捲動位置到第一筆
+                // 不需要重新建立 DOM 元素，因為頁面載入時已建立固定 20 筆資料
+                resetScrollingPosition();
 
                 // 顯示捲動容器
                 scrollingContainer.classList.add('active');
 
-                // 啟動動畫
+                // 啟動捲動動畫
                 const scrollingDepartment = document.getElementById('scrollingDepartment');
                 const scrollingName = document.getElementById('scrollingName');
 
-                // 移除舊動畫 class（如果存在）
+                // 重要：CSS 動畫重新觸發機制
+                // 因為可能是第二次以上的抽獎，元素上可能還有上次的 animate class
+                // 必須先移除 class → 強制重排 → 再添加 class，才能重新觸發動畫
+                // 如果不移除直接添加，瀏覽器會認為 class 沒有變化，不會重新執行動畫
                 scrollingDepartment.classList.remove('animate');
                 scrollingName.classList.remove('animate');
 
-                // 強制重排 - 讓瀏覽器重新計算樣式
+                // 強制瀏覽器重新計算樣式（觸發 reflow）
+                // 這一步很關鍵：確保瀏覽器知道 animate class 已經被移除
                 void scrollingDepartment.offsetWidth;
                 void scrollingName.offsetWidth;
 
-                // 重新添加動畫 class
+                // 添加 animate class，觸發 CSS 動畫
+                // 動畫會從 translateY(0) 捲動到 translateY(--scroll-end-position)
+                // 也就是從第 1 筆捲到第 20 筆（固定清單的最後一筆）
                 scrollingDepartment.classList.add('animate');
                 scrollingName.classList.add('animate');
 
@@ -365,5 +373,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 初始設定
+    initializeScrollingList();  // 頁面載入時一次性建立動畫清單
     updateList();
 });
