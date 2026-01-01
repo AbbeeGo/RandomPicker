@@ -1,0 +1,273 @@
+body {
+    background-image: url('bg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    padding-top: 50px;
+}
+
+:root {
+    --gold: #ffd700;
+    --deep-red: #8b0000;
+}
+
+.pullbar-container {
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
+}
+
+.awards {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 900;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.awards label input[type="radio"] {
+    display: none;
+}
+
+.awards label span {
+    padding: 10px 16px;
+    border: 3px double var(--gold);
+    background-color: rgba(139, 0, 0, 0.7);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.08);
+    transition: all 0.15s ease;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.awards label input[type="radio"]:checked+span {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--deep-red);
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.12);
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.scrolling-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.scrolling-container.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scrolling-box {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 確保 scrolling-box 即使有 department-box 或 name-box class 也保持 column 方向 */
+.scrolling-box.department-box,
+.scrolling-box.name-box {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    /* 移除高度限制，讓內容可以超出容器 */
+}
+
+.scrolling-box div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0;
+    font-size: 50px;
+}
+
+/* 動態滾動動畫 */
+@keyframes dynamic-scroll-up {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(var(--scroll-end-position, -2000px));
+    }
+}
+
+.scrolling-box.animate {
+    animation: dynamic-scroll-up var(--scroll-duration, 2s) linear forwards;
+}
+
+.result-box {
+    display: block;
+}
+
+.scrolling-area {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    word-wrap: break-word;
+    font-size: 50px;
+    height: 43%;
+    top: 32.4%;
+    left: 10%;
+    width: 73%;
+    z-index: 999;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.department-box {
+    position: absolute;
+    width: 47%;
+    left: 0%;
+    height: 100%;
+}
+
+.name-box {
+    position: absolute;
+    width: 45%;
+    left: 55%;
+    height: 100%;
+}
+
+/* result-box 需要置中對齊 */
+.result-box.department-box,
+.result-box.name-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bar {
+    display: block;
+    max-width: 60vw;
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+.result-list {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    font-weight: bold;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background-color: rgba(220, 53, 69, 0.7);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    width: 150px;
+}
+
+#clearLast {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 6px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12);
+}
+
+.btn:hover {
+    background-color: rgba(200, 35, 51);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#list {
+    list-style-type: none;
+    padding: 0 10px 0 0;
+    /* 右側留出空間給捲軸 */
+    margin: 0;
+    width: 300px;
+    max-height: 410px;
+    overflow-y: auto;
+    border: 3px double var(--gold);
+    background-color: rgba(139, 0, 0, 0.7);
+    border-radius: 12px;
+}
+
+/* 客製化捲軸 */
+#list::-webkit-scrollbar {
+    width: 10px;
+}
+
+#list::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+#list::-webkit-scrollbar-thumb {
+    background-color: var(--gold);
+    border-radius: 10px;
+    border: 3px solid rgba(139, 0, 0, 0.7);
+}
+
+#list::-webkit-scrollbar-thumb:hover {
+    background-color: #ffed4a;
+}
+
+
+#list li {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    text-shadow: none;
+}
+
+#toggle {
+    display: none;
+}

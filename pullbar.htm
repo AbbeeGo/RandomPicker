@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>拉霸抽獎</title>
+    <link rel="stylesheet" href="pullbar.css" />
+    <script src=util.js></script>
+    <script src=pullbar.js></script>
+</head>
+
+<body>
+    <div class="awards">
+        <label><input type="radio" name="award" id="award1" value="5" checked><span>頭獎(5)</span></label>
+        <label><input type="radio" name="award" id="award2" value="10"><span>二獎(10)</span></label>
+        <label><input type="radio" name="award" id="award3" value="15"><span>三獎(15)</span></label>
+        <label><input type="radio" name="award" id="awardAll" value="all"><span>全部得獎人</span></label>
+    </div>
+    <div class="result-list">
+        <ul id="list"></ul>
+        <button id="clearLast" class="btn">—</button>
+    </div>
+    <div class="pullbar-container">
+        <button id="toggle" class="btn">GO</button>
+        <div class="scrolling-area">
+            <!-- 無限捲動的動畫容器 -->
+            <div class="scrolling-container" id="scrollingContainer">
+                <div class="scrolling-box department-box" id="scrollingDepartment"></div>
+                <div class="scrolling-box name-box" id="scrollingName"></div>
+            </div>
+            <!-- 用於顯示最終結果 -->
+            <div class="result-box department-box" id="departmentText"></div>
+            <div class="result-box name-box" id="nameText"></div>
+        </div>
+        <img id="bar" src="pullbar.png" />
+    </div>
+</body>
+
+</html>
