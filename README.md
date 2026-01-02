@@ -12,6 +12,7 @@
 2. **開啟網頁**:
    - **拉霸抽獎**: 開啟 `pullbar.htm`
    - **輪盤抽獎**: 開啟 `wheel.htm`
+   - 按 F11 全螢幕顯示效果最佳
 
 ## 抽獎模式
 
@@ -101,13 +102,13 @@ RandomPicker/
 ## 執行畫面
 
 ### 輪盤抽獎模式
-<img width="1641" height="910" alt="設定次數後初始畫面" src="https://github.com/user-attachments/assets/02333565-77bc-4f2e-9d5a-90e7c133072c" />
+<img alt="設定次數後初始畫面" src="https://github.com/user-attachments/assets/02333565-77bc-4f2e-9d5a-90e7c133072c" />
 
-<img width="1644" height="915" alt="輪盤使用過程" src="https://github.com/user-attachments/assets/33f54607-08be-459c-bb9e-e26350712638" />
+<img alt="輪盤使用過程" src="https://github.com/user-attachments/assets/33f54607-08be-459c-bb9e-e26350712638" />
 
 ### 拉霸抽獎模式
-<img width="1641" height="910" alt="初始畫面" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279016.png.png" />
+<img alt="初始畫面" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279016.png.png" />
 
-<img width="1641" height="910" alt="使用過程" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279035.png.png" />
+<img alt="使用過程" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279035.png.png" />
 
-<img width="1641" height="910" alt="使用過程" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279075.png.png" />
+<img alt="使用過程" src="https://dotblogsfile.blob.core.windows.net/user/abbee/17b7e60d-8483-4611-a7be-b16938fbc86c/1767279075.png.png" />
