@@ -10,8 +10,8 @@
    ```
 
 2. **開啟網頁**:
-   - **拉霸抽獎**: 開啟 `pullbar.htm`
-   - **輪盤抽獎**: 開啟 `wheel.htm`
+   - **拉霸抽獎**: 開啟 [`pullbar.htm`](https://abbeego.github.io/RandomPicker/pullbar.htm)
+   - **輪盤抽獎**: 開啟 [`wheel.htm`](https://abbeego.github.io/RandomPicker/wheel.htm)
    - 按 F11 全螢幕顯示效果最佳
 
 ## 抽獎模式
