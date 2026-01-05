@@ -10,8 +10,8 @@
    ```
 
 2. **開啟網頁**:
-   - **拉霸抽獎**: 開啟 [`pullbar.htm`](https://abbeego.github.io/RandomPicker/pullbar.htm)
-   - **輪盤抽獎**: 開啟 [`wheel.htm`](https://abbeego.github.io/RandomPicker/wheel.htm)
+   - **拉霸抽獎**: 開啟 `pullbar.htm`
+   - **輪盤抽獎**: 開啟 `wheel.htm`
    - 按 F11 全螢幕顯示效果最佳
 
 ## 抽獎模式
@@ -41,6 +41,8 @@
 
 ### 拉霸抽獎
 
+#### 修改抽獎人名單與動畫參數
+
 所有常用參數都在 `pullbar.js` 最上方（第 1-41 行）：
 
 ```javascript
@@ -62,7 +64,7 @@ const HIDE_SCROLLING_DELAY = 2000;
 const ANIMATION_LIST_SIZE = 20;
 ```
 
-**修改獎項**: 編輯 `pullbar.htm` 第 14-17 行
+**修改獎項**: 編輯 `pullbar.htm` 第 14-17 行，修改 `value` 屬性來設定各獎項的得獎人數：
 ```html
 <label><input type="radio" name="award" value="5"><span>頭獎(5)</span></label>
 <label><input type="radio" name="award" value="10"><span>二獎(10)</span></label>
