@@ -29,8 +29,8 @@ const users = `數位田曰總處,陳田曰
 `;
 
 // 捲動動畫時間設定 (單位: 秒)
-const NAME_SCROLL_DURATION = 3.5;
-const DEPARTMENT_SCROLL_DURATION = 3; // 部門秒數(比人名提早停止)
+const NAME_SCROLL_DURATION = 5;
+const DEPARTMENT_SCROLL_DURATION = 4; // 部門秒數(比人名提早停止)
 
 // 拉霸動畫後延遲時間 (單位: 毫秒)
 const ANIMATION_START_DELAY = 500;
@@ -255,8 +255,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const barImage = document.getElementById('bar');
             const originalSrc = barImage.src;
             const animationStartDelay = ANIMATION_START_DELAY;
-            const hideScrollingDelay = (NAME_SCROLL_DURATION - 1.5) * 1000;
-            const departmentDuration = (DEPARTMENT_SCROLL_DURATION - 1.5) * 1000; // 部門停止時間(毫秒)
+            const hideScrollingDelay = (NAME_SCROLL_DURATION - 2) * 1000;
+            const departmentDuration = (DEPARTMENT_SCROLL_DURATION - 2) * 1000; // 部門停止時間(毫秒)
 
             // toggle 按下時清空 result-box 的文字
             departmentText.textContent = '';
@@ -304,8 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 重置捲動位置回第一筆
                     scrollingDepartment.classList.remove('animate');
                     scrollingName.classList.remove('animate');
-                    scrollingDepartment.style.transform = 'translateY(0)';
-                    scrollingName.style.transform = 'translateY(0)';
 
                     // 顯示人名結果（部門已在之前顯示）
                     nameText.textContent = winner.name;
