@@ -185,9 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     awardTitle.style.fontSize = '1.2em';
                     list.appendChild(awardTitle);
 
-                    awardWinners[award].forEach(winner => {
+                    awardWinners[award].forEach((winner, index) => {
                         const li = document.createElement('li');
-                        li.textContent = `${winner.department} - ${winner.name}`;
+                        li.textContent = `${index + 1}. ${winner.department} - ${winner.name}`;
                         list.appendChild(li);
                     });
                 }
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const li = document.createElement('li');
             if (i < existingWinners.length) {
                 const winner = existingWinners[i];
-                li.textContent = `${winner.department} - ${winner.name}`;
+                li.textContent = `${i + 1}. ${winner.department} - ${winner.name}`;
                 drawnWinners.push(winner);
                 drawnCount++;
             } else {
@@ -322,11 +322,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // 更新得獎名單
                     const listItems = list.querySelectorAll('li');
-                    listItems[drawnCount].textContent = `${winner.department} - ${winner.name}`;
+                    listItems[drawnCount].textContent = `${drawnCount + 1}. ${winner.department} - ${winner.name}`;
                     drawnWinners.push(winner);
                     allWinners.push(winner);
                     awardWinners[currentAward].push(winner);
                     drawnCount++;
+
+                    // 當抽出第11個(含)以後的得獎人時,自動捲動到該項目
+                    if (drawnCount >= 11) {
+                        listItems[drawnCount - 1].scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest'
+                        });
+                    }
 
                     // 顯示得獎人後，解鎖所有控制項（toggle 按鈕除非已抽完所有名額）
                     toggleButton.disabled = drawnCount === currentAwardCount;
