@@ -29,13 +29,11 @@ const users = `數位田曰總處,陳田曰
 `;
 
 // 捲動動畫時間設定 (單位: 秒)
-const SCROLL_DURATION = 4;
+const NAME_SCROLL_DURATION = 3.5;
+const DEPARTMENT_SCROLL_DURATION = 3; // 部門秒數(比人名提早停止)
 
 // 拉霸動畫後延遲時間 (單位: 毫秒)
 const ANIMATION_START_DELAY = 500;
-
-// 捲動開始後多久隱藏並顯示結果 (單位: 毫秒)
-const HIDE_SCROLLING_DELAY = 2000;
 
 // 動畫列表項目數量 (捲動時顯示的項目數)
 const ANIMATION_LIST_SIZE = 20;
@@ -112,23 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollingName.appendChild(nameDiv);
         });
 
-        // 計算滾動距離：固定 20 個項目的總高度
-        const scrollDistance = ANIMATION_LIST_SIZE * itemHeight;
+        // 計算滾動距離：改為捲動到倒數第二個項目，讓最後一個項目停在畫面中
+        const scrollDistance = (ANIMATION_LIST_SIZE - 1) * itemHeight;
 
-        // 設置 CSS 變數 - 使用配置檔中的 SCROLL_DURATION
+        // 設置 CSS 變數
         scrollingDepartment.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
-        scrollingDepartment.style.setProperty('--scroll-duration', `${SCROLL_DURATION}s`);
-        scrollingName.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
-        scrollingName.style.setProperty('--scroll-duration', `${SCROLL_DURATION}s`);
+        scrollingDepartment.style.setProperty('--department-scroll-duration', `${DEPARTMENT_SCROLL_DURATION}s`);
 
-        // Debug: 輸出動畫資訊
-        console.log('動畫清單初始化:', {
-            項目總數: ANIMATION_LIST_SIZE,
-            容器高度: containerHeight,
-            每個項目高度: itemHeight,
-            捲動距離: scrollDistance,
-            捲動時間_秒: SCROLL_DURATION
-        });
+        // 人名使用完整的捲動時間
+        scrollingName.style.setProperty('--scroll-end-position', `-${scrollDistance}px`);
+        scrollingName.style.setProperty('--scroll-duration', `${NAME_SCROLL_DURATION}s`);
     }
 
     // 每次抽獎時重置捲動位置
@@ -263,8 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (winner) {
             const barImage = document.getElementById('bar');
             const originalSrc = barImage.src;
-            const animationStartDelay = ANIMATION_START_DELAY; // 拉霸動畫後延遲時間
-            const hideScrollingDelay = HIDE_SCROLLING_DELAY; // 捲動開始後多久隱藏並顯示結果
+            const animationStartDelay = ANIMATION_START_DELAY;
+            const hideScrollingDelay = (NAME_SCROLL_DURATION - 1.5) * 1000;
+            const departmentDuration = (DEPARTMENT_SCROLL_DURATION - 1.5) * 1000; // 部門停止時間(毫秒)
 
             // toggle 按下時清空 result-box 的文字
             departmentText.textContent = '';
@@ -277,7 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 barImage.src = originalSrc;
 
                 // 重置捲動位置到第一筆
-                // 不需要重新建立 DOM 元素，因為頁面載入時已建立固定 20 筆資料
                 resetScrollingPosition();
 
                 // 顯示捲動容器
@@ -288,24 +279,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scrollingName = document.getElementById('scrollingName');
 
                 // 重要：CSS 動畫重新觸發機制
-                // 因為可能是第二次以上的抽獎，元素上可能還有上次的 animate class
-                // 必須先移除 class → 強制重排 → 再添加 class，才能重新觸發動畫
-                // 如果不移除直接添加，瀏覽器會認為 class 沒有變化，不會重新執行動畫
                 scrollingDepartment.classList.remove('animate');
                 scrollingName.classList.remove('animate');
 
                 // 強制瀏覽器重新計算樣式（觸發 reflow）
-                // 這一步很關鍵：確保瀏覽器知道 animate class 已經被移除
                 void scrollingDepartment.offsetWidth;
                 void scrollingName.offsetWidth;
 
-                // 添加 animate class，觸發 CSS 動畫
-                // 動畫會從 translateY(0) 捲動到 translateY(--scroll-end-position)
-                // 也就是從第 1 筆捲到第 20 筆（固定清單的最後一筆）
+                // 同時添加 animate class，兩者同時開始捲動
+                // 但部門會因為 CSS 中設定較短的 duration 而提早停止
                 scrollingDepartment.classList.add('animate');
                 scrollingName.classList.add('animate');
 
-                // 捲動開始後 2 秒，隱藏 scrolling-box 並顯示得獎人
+                // 部門捲動完成後，先顯示部門結果
+                setTimeout(() => {
+                    departmentText.textContent = winner.department;
+                }, departmentDuration);
+
+                // 人名捲動完成後，隱藏 scrolling-box 並顯示人名結果
                 setTimeout(() => {
                     // 隱藏捲動容器
                     scrollingContainer.classList.remove('active');
@@ -316,8 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     scrollingDepartment.style.transform = 'translateY(0)';
                     scrollingName.style.transform = 'translateY(0)';
 
-                    // 把得獎人寫上 result-box
-                    departmentText.textContent = winner.department;
+                    // 顯示人名結果（部門已在之前顯示）
                     nameText.textContent = winner.name;
 
                     // 更新得獎名單
