@@ -240,7 +240,7 @@ body {
     padding: 0 10px 0 0;
     /* 右側留出空間給捲軸 */
     margin: 0;
-    width: 300px;
+    width: 250px;
     max-height: 410px;
     overflow-y: auto;
     border: 3px double var(--gold);
